@@ -1,0 +1,72 @@
+
+# Python binary files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.env
+.venv
+env.bak/
+venv.bak/
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+.project
+.pydevproject
+.settings
+
+# Testing
+.coverage
+.pytest_cache/
+htmlcov/
+.tox/
+.nox/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# Local development settings
+.env.local
+.env.*.local
+*.log
+
+# Database files
+*.db
+*.sqlite3
+*.sqlite
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# Documentation
+docs/_build/
+site/
+
+# Dependency management
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Mypy cache
+.mypy_cache/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Backup files
+*.bak
+*~
