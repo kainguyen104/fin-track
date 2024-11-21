@@ -1,21 +1,21 @@
-# [Your Project Name]
+# [FinTrack]
 
 ## Overview
 
-[Briefly describe what your project does and why you made it]
+[Hi, I’m Kai Nguyen, and my project is called ‘FinTrack.’ Many people find it hard to track their spending and manage their budgets, which can cause financial stress. FinTrack is a tool that analyzes income, expenses, and savings, helping users see where their money goes, like food, entertainment, and bills. What makes FinTrack special is its ability to find saving opportunities and send alerts when users are close to their budget limits. I’m excited to develop FinTrack to help people make better financial decisions and take control of their money.]
 
 ### Primary Features
 
-- [Feature 1]
-- [Feature 2]
-- [Feature 3]
+- [Store transactions (Date, category, amount, description)]
+- [Add new transactions, then view all]
+- [Analyze expenses and alert for budget limits]
 
 ---
 
 ## Project Structure
 
 ```
-[project-name]/
+[FinTrack]/
 │   # Phase 1: Business logic:
 ├── core.py          # Core business logic
 ├── test.py          # Tests for business logic

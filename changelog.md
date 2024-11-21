@@ -4,7 +4,8 @@
 
 **Date:** 11/14/2024
 
-[Write your summary here]
+[I read all the phase 1 for my project. Moreover, I've set up the core.py and test.py for my project to work correctly.
+It would be a foundation for my final project.]
 
 ---
 
