@@ -38,23 +38,23 @@ def main():
                 try:
                     budget_target = float(input("Enter your budget target🎯: $"))
                     wallet.set_budget(budget_target)
-                    choice = display_menu()
+                    break
                 except ValueError as e:
-                    print(f"Invalid input: {e}. Please try again.")
+                    print(f"⚠ Invalid input: {e}. Please try again.")
            
-        
         elif choice == "2":
             while True:
                 try:
-                    savings = float(input("Enter your savings goal💰: $"))
-                    if savings < 0:
-                        raise ValueError("Savings goal cannot be negative.")
+                    set_savings = float(input("Enter your savings goal💰: $"))
+                    wallet.set_savings(set_savings)
                     break
                 except ValueError as e:
-                    print(f"Invalid input: {e}. Please try again.")
-            return savings
+                    print(f"⚠ Invalid input: {e}. Please try again.")
         
         elif choice == "3":
+            print("You chose adding transitions.")
+            transaction_category = input("What's kind of item you spend on? ")
+            transaction_amount = int(input("How much money you spend on this item"))
             add_transactions = input("Add you transactions➕: ")
             return add_transactions
         

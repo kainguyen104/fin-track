@@ -14,6 +14,7 @@ class FinTrack:
         self.transactions = []
         self.initial_balance = 0
         self.budget = 0
+        self.savings = 0
 
     def set_initial_balance(self):
         """Prompt the user to input an initial balance."""
@@ -21,18 +22,20 @@ class FinTrack:
             try:
                 balance = float(input("Enter your initial balance👛: $"))
                 if balance < 0:
-                    raise ValueError("Initial balance cannot be negative.")
+                    raise ValueError("❗Initial balance cannot be negative.")
                 self.initial_balance = balance
                 print(f"Initial balance set to👛: ${self.initial_balance}")
                 break
             except ValueError as e:
-                print(f"Invalid input: {e}. Please try again.")
+                print(f"⚠ Invalid input: {e}. Please try again.")
 
     def set_budget(self, budget):
+        if (budget + self.savings) > self.initial_balance:
+            raise ValueError(f"Savings is ${self.savings},and balance is ${self.initial_balance}, so budget must be lower than/ equal to {self.initial_balance - self.budget}")
         if budget > self.initial_balance:
-            raise ValueError("Budget must be lower than your balance.")
+            raise ValueError("❗Budget must be lower than your balance.")
         if budget < 0:
-            raise ValueError("Budget must be positive.")
+            raise ValueError("❗Budget must be positive.")
         if self.budget != 0:
             print(f"Current budget is set to ${self.budget}. Do you want to set a new budget? ")
             new_budget_decision = input("Y(es) or n(o)? ")
@@ -40,18 +43,22 @@ class FinTrack:
                 print("Keeping old budget.")
                 return
         self.budget = budget
-        print(f"Setting budget to ${budget}")
+        print(f"🔃 Setting budget to ${budget}")
         return budget
 
     def set_savings(self, savings):
-        while True:
-            try:
-                savings = float(input("Enter your savings goal💰: $"))
-                if savings < 0:
-                    raise ValueError("Savings goal cannot be negative.")
-                break
-            except ValueError as e:
-                print(f"Invalid input: {e}. Please try again.")
+        if (savings + self.budget) > self.initial_balance:
+            raise ValueError(f"❗Budget is ${self.budget},and balance is ${self.initial_balance}, so savings must be lower than/ equal to {self.initial_balance - self.budget}")
+        if savings < 0: 
+            raise ValueError("❗Savings must be positive.")
+        if self.savings != 0: 
+            print(f"Current savings is set to ${self.savings}. Do you want to set a new savings? ")
+            new_savings_decision = input("Y(es) or n(o)? ")
+            if new_savings_decision.lower() == "n" or new_savings_decision.lower() == "no":
+                print("Keeping old savings.")
+                return
+        self.savings = savings
+        print(f"🔃 Setting savings to ${savings}")
         return savings
     
     def add_transaction(self, amount, category, description):

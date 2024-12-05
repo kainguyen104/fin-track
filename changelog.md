@@ -21,7 +21,7 @@ I created more functions for FinTrack to make it more diverse in tools ( calcula
 
 **Date:** 12/05/2024
 
-[Write your summary here]
+I am building the code for most of the functions in core.py in order to work logically(fix user's input error). Moreover, greeting and user's information are also added to my program.
 
 ---
 
