@@ -4,8 +4,8 @@
 
 **Date:** 11/14/2024
 
-[I read all the phase 1 for my project. Moreover, I've set up the core.py and test.py for my project to work correctly.
-It would be a foundation for my final project.]
+I read all the phase 1 for my project. Moreover, I've set up the core.py and test.py for my project to work correctly.
+It would be a foundation for my final project.
 
 ---
 
@@ -13,7 +13,7 @@ It would be a foundation for my final project.]
 
 **Date:** 11/21/2024
 
-[Write your summary here]
+I created more functions for FinTrack to make it more diverse in tools ( calculate: income, balance, expenses; set: savings target, budget target; alert: savings, budget; view: expenses analysis, transactions history; etc.), which can offer more options for users to choose in order to meet their requirements.
 
 ---
 
