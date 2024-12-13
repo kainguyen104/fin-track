@@ -6,7 +6,7 @@
 
 ### Primary Features
 
-- [Store transactions (Date, category, amount, description)]
+- [Store transactions (Date, category, amount, description, type)]
 - [Add new transactions, then view all]
 - [Analyze expenses and alert for budget limits]
 
@@ -35,7 +35,7 @@
 
 1. Install dependencies
 
-[TODO: Document your project dependencies here]
+No dependency
 
 ```bash
 pip install <dependency>
@@ -55,11 +55,6 @@ python test.py
 # If using CLI interface:
 python main.py
 
-# If using web interface:
-python web.py
-
-# If using game interface:
-python game.py
 
 # Any other interface you choose
 
@@ -73,20 +68,20 @@ See [changelog.md](changelog.md) for detailed development updates.
 
 ## Future Ideas
 
-- [Idea 1]
-- [Idea 2]
-- [Idea 3]
+- [Building a beautiful user interface using web framework]
+- [Enabling multi user support: sign up, login, logout, authentication]
+- [Enabling AI's advice on financial planning]
 
 ## AI Usage
 
-[Describe which parts of your project used AI assistance]
+function: def __build_transactions_list(self, transactions, choice, argument) in core.py
+I have to consult Chatgpt for the complicated logic of sorting and filtering
 
 ## Resources Used
 
-- [Resource 1]
-- [Resource 2]
-- [Course materials]
+- (https://docs.python.org/3/library/json.html): I needed to consult this python website to better understand how to handle json data (serialize and deserialize)
+- Course materials: I needed to write and read data into file.
 
 ---
 
-Created by [Your Name] for [Course Name]
+Created by Kai Nguyen for CSC-121

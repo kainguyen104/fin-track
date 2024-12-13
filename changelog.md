@@ -29,6 +29,6 @@ I am building the code for most of the functions in core.py in order to work log
 
 **Date:** 12/10/2024
 
-[Write your summary here]
+There are more choices and functions created to open more opportunities for users to choose. Also, alert messages also are added for user when nearly reached. A functional FinTrack is coming...
 
 ---
