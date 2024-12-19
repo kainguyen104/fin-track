@@ -42,6 +42,7 @@ class FinTrack:
                 print(f"⚠️ Invalid input: {e}. Please try again.")
 
     def set_budget(self, budget):
+        """Set the user's budget with checks."""
         if budget > self.balance:
             raise ValueError(f"❗Budget must be lower than your balance. Remaining balance: ${self.balance}.")
         if (budget + self.savings) > self.balance:
@@ -65,6 +66,7 @@ class FinTrack:
         return budget
 
     def set_savings(self, savings):
+        """Set the user's savings with checks."""
         if savings < 0:
             raise ValueError("❗Savings must be positive.")
         if self.savings != 0:
@@ -99,6 +101,7 @@ class FinTrack:
         self.alert_low_balance()
     
     def __build_transactions_list(self, transactions, choice, argument):
+        """Build a list of transactions based on choice and argument."""
         if choice == "sort":
             if argument in ["date", "name", "amount", "category"]:
                 # Sort by the argument key
@@ -138,6 +141,7 @@ class FinTrack:
         print("=" * 100)
 
     def view_expenses_analysis(self):
+        """Analyze and display expenses by category."""
         self.total_expenses = 0
 
         for transaction in self.transactions:
@@ -158,6 +162,7 @@ class FinTrack:
             print(f"{category:<20} ${amount:<14.2f} {percentage:<9.2f}%")
 
     def view_income_analysis(self):
+        """Analyze and display income by category."""
         self.total_income = 0
 
         for transaction in self.transactions:
@@ -219,9 +224,7 @@ class FinTrack:
     def add_alert_option(self, option):
         self.alert_options.append(option)
     
-    """"""
 
-    
     def save_to_file(self):
         """Save data to JSON file."""
         data = {

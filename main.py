@@ -12,10 +12,10 @@ def display_menu():
     print("6. View income analysis.")
     print("7. View remaining balance.")
     print("8. View total income.")
-    print("9. View total expense.")
+    print("9. View total expenses.")
     print("10. Delete user data.")
     print("11. Exit.")
-    return input("Choose an option (1-10): ")
+    return input("Choose an option (1-11): ")
 
 wallet = FinTrack()
 
@@ -26,7 +26,7 @@ def main():
         if choice == "1":
             while True:
                 try:
-                    budget_target = float(input("\nEnter your budget target🎯: $"))
+                    budget_target = float(input("\nEnter your budget target 🎯: $"))
                     wallet.set_budget(budget_target)
                     wallet.add_alert_option("budget")
                     print("\nBudget target set successfully!\n")
@@ -37,7 +37,7 @@ def main():
         elif choice == "2":
             while True:
                 try:
-                    set_savings = float(input("\nEnter your savings goal💰: $"))
+                    set_savings = float(input("\nEnter your savings goal 💰: $"))
                     wallet.set_savings(set_savings)
                     wallet.add_alert_option("savings")
                     print("\nSavings goal set successfully!\n")
@@ -46,7 +46,7 @@ def main():
                     print(f"⚠️ Invalid input: {e}. Please try again.\n")
 
         elif choice == "3":
-            print("\nYou chose to add transactions.➕\n")
+            print("\nYou chose to add transactions ➕\n")
             while True:
                 try:
                     transaction_amount = float(input("How much money is for this item? $"))
@@ -73,7 +73,7 @@ def main():
                     break
 
         elif choice == "4":
-            print("\nYou chose to view transactions list📋\n")
+            print("\nYou chose to view the transactions list 📋\n")
             while True:
                 print("How do you want to view transactions?")
                 print("1. Default (sorted by date - ascending order)")
@@ -126,17 +126,17 @@ def main():
                     break
 
         elif choice == "5":
-            print("\nHere is your expenses analysis📈\n")
+            print("\nHere is your expenses analysis 📈\n")
             print(f"Your total expenses: {wallet.total_expenses}")
             wallet.view_expenses_analysis()
 
         elif choice == "6":
-            print("\nHere is your income analysis📈\n")
+            print("\nHere is your income analysis 📈\n")
             print(f"Your total income: {wallet.total_income}")
             wallet.view_income_analysis()
 
         elif choice == "7":
-            print("\nYou chose to view remaining balance:\n")
+            print("\nYou chose to view the remaining balance:\n")
             wallet.get_remaining_balance()
 
         elif choice == "8":
@@ -148,25 +148,25 @@ def main():
             print(f"Total expenses: ${wallet.get_total_expenses()}\n")
 
         elif choice == "10":
-            print("You are going to make a very critical decision⚠️ ⚠️ ⚠️")
+            print("You are going to make a very critical decision ⚠️ ⚠️ ⚠️")
             delete_decision = input("Are you sure you want to delete your data? Y(es) or any key to go back ").lower()
             if delete_decision in ["y", "yes"]:
                 confirm_name = input("Please confirm your name: ").lower()
                 if confirm_name == wallet.get_user_name().lower():
                     if delete_user_data():
-                        print(f"\nThank you for using FinTrack. We hope to see you in the future!👋👋")
+                        print(f"\nThank you for using FinTrack. We hope to see you in the future! 👋👋")
                         break
                     else:
-                        print(f"Something's wrong when we tried to delete the data. Try again one more time!")
+                        print("Something went wrong when trying to delete the data. Try again!")
                 else:
                     print("Check your name again!")
             continue
 
         elif choice == "11":
             wallet.save_to_file()
-            print("\nThank you for choosing FinTrack. Have a good day!👋👋\n")
+            print("\nThank you for choosing FinTrack. Have a good day! 👋👋\n")
             break
-        
+
         else:
             print("\n⚠️ Invalid choice. Please try again.\n")
 

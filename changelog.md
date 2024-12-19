@@ -29,6 +29,6 @@ I am building the code for most of the functions in core.py in order to work log
 
 **Date:** 12/10/2024
 
-There are more choices and functions created to open more opportunities for users to choose. Also, alert messages also are added for user when nearly reached. A functional FinTrack is coming...
+There are more choices and functions created to open more opportunities for users to choose. Also, alert messages also are added for user when nearly reached. Moreover, a checking system for new user is also built, and more files are also added for a better-version of FinTrack. Additionally, there would be a user_data.json in FinTrack for user. A functional FinTrack is coming...
 
 ---
