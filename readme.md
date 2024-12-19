@@ -19,11 +19,11 @@
 │   # Phase 1: Business logic:
 ├── core.py          # Core business logic
 ├── test.py          # Tests for business logic
+├── transaction.py   # business logic
+├── utils.py         # greetings and check
 │
 │   # Phase 2: Choose one or more of these UI options:
 ├── main.py          # CLI interface (optional)
-├── web.py          # Web interface (optional)
-├── game.py         # Game interface (optional)
 │
 ├── readme.md       # This file
 ├── changelog.md    # Weekly development updates
