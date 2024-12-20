@@ -1,0 +1,2097 @@
+commit af17ab9555150e31fac03b0a5f46a5c6c184d859
+Author: kainguyen104 <nguyenlenguyen.1042006@gmail.com>
+Date:   Thu Dec 19 16:25:00 2024 -0500
+
+    Update readme.md
+
+diff --git a/readme.md b/readme.md
+index 1080f84..6cf4c0f 100644
+--- a/readme.md
++++ b/readme.md
+@@ -19,11 +19,11 @@
+ │   # Phase 1: Business logic:
+ ├── core.py          # Core business logic
+ ├── test.py          # Tests for business logic
++├── transaction.py   # business logic
++├── utils.py         # greetings and check
+ │
+ │   # Phase 2: Choose one or more of these UI options:
+ ├── main.py          # CLI interface (optional)
+-├── web.py          # Web interface (optional)
+-├── game.py         # Game interface (optional)
+ │
+ ├── readme.md       # This file
+ ├── changelog.md    # Weekly development updates
+
+commit 4dec288670ca211e1cbd277a769c1d418803de04
+Author: kainguyen104 <nguyenlenguyen.1042006@gmail.com>
+Date:   Thu Dec 19 16:08:17 2024 -0500
+
+    Kai Nguyen_phase 3_updated
+
+diff --git a/changelog.md b/changelog.md
+index 5af7b33..6d1f9d1 100644
+--- a/changelog.md
++++ b/changelog.md
+@@ -29,6 +29,6 @@ I am building the code for most of the functions in core.py in order to work log
+ 
+ **Date:** 12/10/2024
+ 
+-There are more choices and functions created to open more opportunities for users to choose. Also, alert messages also are added for user when nearly reached. A functional FinTrack is coming...
++There are more choices and functions created to open more opportunities for users to choose. Also, alert messages also are added for user when nearly reached. Moreover, a checking system for new user is also built, and more files are also added for a better-version of FinTrack. Additionally, there would be a user_data.json in FinTrack for user. A functional FinTrack is coming...
+ 
+ ---
+diff --git a/core.py b/core.py
+index 4fc512e..562ffa3 100644
+--- a/core.py
++++ b/core.py
+@@ -42,6 +42,7 @@ class FinTrack:
+                 print(f"⚠️ Invalid input: {e}. Please try again.")
+ 
+     def set_budget(self, budget):
++        """Set the user's budget with checks."""
+         if budget > self.balance:
+             raise ValueError(f"❗Budget must be lower than your balance. Remaining balance: ${self.balance}.")
+         if (budget + self.savings) > self.balance:
+@@ -65,6 +66,7 @@ class FinTrack:
+         return budget
+ 
+     def set_savings(self, savings):
++        """Set the user's savings with checks."""
+         if savings < 0:
+             raise ValueError("❗Savings must be positive.")
+         if self.savings != 0:
+@@ -99,6 +101,7 @@ class FinTrack:
+         self.alert_low_balance()
+     
+     def __build_transactions_list(self, transactions, choice, argument):
++        """Build a list of transactions based on choice and argument."""
+         if choice == "sort":
+             if argument in ["date", "name", "amount", "category"]:
+                 # Sort by the argument key
+@@ -138,6 +141,7 @@ class FinTrack:
+         print("=" * 100)
+ 
+     def view_expenses_analysis(self):
++        """Analyze and display expenses by category."""
+         self.total_expenses = 0
+ 
+         for transaction in self.transactions:
+@@ -158,6 +162,7 @@ class FinTrack:
+             print(f"{category:<20} ${amount:<14.2f} {percentage:<9.2f}%")
+ 
+     def view_income_analysis(self):
++        """Analyze and display income by category."""
+         self.total_income = 0
+ 
+         for transaction in self.transactions:
+@@ -219,9 +224,7 @@ class FinTrack:
+     def add_alert_option(self, option):
+         self.alert_options.append(option)
+     
+-    """"""
+ 
+-    
+     def save_to_file(self):
+         """Save data to JSON file."""
+         data = {
+diff --git a/main.py b/main.py
+index 4320961..0c8cac5 100644
+--- a/main.py
++++ b/main.py
+@@ -12,10 +12,10 @@ def display_menu():
+     print("6. View income analysis.")
+     print("7. View remaining balance.")
+     print("8. View total income.")
+-    print("9. View total expense.")
++    print("9. View total expenses.")
+     print("10. Delete user data.")
+     print("11. Exit.")
+-    return input("Choose an option (1-10): ")
++    return input("Choose an option (1-11): ")
+ 
+ wallet = FinTrack()
+ 
+@@ -26,7 +26,7 @@ def main():
+         if choice == "1":
+             while True:
+                 try:
+-                    budget_target = float(input("\nEnter your budget target🎯: $"))
++                    budget_target = float(input("\nEnter your budget target 🎯: $"))
+                     wallet.set_budget(budget_target)
+                     wallet.add_alert_option("budget")
+                     print("\nBudget target set successfully!\n")
+@@ -37,7 +37,7 @@ def main():
+         elif choice == "2":
+             while True:
+                 try:
+-                    set_savings = float(input("\nEnter your savings goal💰: $"))
++                    set_savings = float(input("\nEnter your savings goal 💰: $"))
+                     wallet.set_savings(set_savings)
+                     wallet.add_alert_option("savings")
+                     print("\nSavings goal set successfully!\n")
+@@ -46,7 +46,7 @@ def main():
+                     print(f"⚠️ Invalid input: {e}. Please try again.\n")
+ 
+         elif choice == "3":
+-            print("\nYou chose to add transactions.➕\n")
++            print("\nYou chose to add transactions ➕\n")
+             while True:
+                 try:
+                     transaction_amount = float(input("How much money is for this item? $"))
+@@ -73,7 +73,7 @@ def main():
+                     break
+ 
+         elif choice == "4":
+-            print("\nYou chose to view transactions list📋\n")
++            print("\nYou chose to view the transactions list 📋\n")
+             while True:
+                 print("How do you want to view transactions?")
+                 print("1. Default (sorted by date - ascending order)")
+@@ -126,17 +126,17 @@ def main():
+                     break
+ 
+         elif choice == "5":
+-            print("\nHere is your expenses analysis📈\n")
++            print("\nHere is your expenses analysis 📈\n")
+             print(f"Your total expenses: {wallet.total_expenses}")
+             wallet.view_expenses_analysis()
+ 
+         elif choice == "6":
+-            print("\nHere is your income analysis📈\n")
++            print("\nHere is your income analysis 📈\n")
+             print(f"Your total income: {wallet.total_income}")
+             wallet.view_income_analysis()
+ 
+         elif choice == "7":
+-            print("\nYou chose to view remaining balance:\n")
++            print("\nYou chose to view the remaining balance:\n")
+             wallet.get_remaining_balance()
+ 
+         elif choice == "8":
+@@ -148,25 +148,25 @@ def main():
+             print(f"Total expenses: ${wallet.get_total_expenses()}\n")
+ 
+         elif choice == "10":
+-            print("You are going to make a very critical decision⚠️ ⚠️ ⚠️")
++            print("You are going to make a very critical decision ⚠️ ⚠️ ⚠️")
+             delete_decision = input("Are you sure you want to delete your data? Y(es) or any key to go back ").lower()
+             if delete_decision in ["y", "yes"]:
+                 confirm_name = input("Please confirm your name: ").lower()
+                 if confirm_name == wallet.get_user_name().lower():
+                     if delete_user_data():
+-                        print(f"\nThank you for using FinTrack. We hope to see you in the future!👋👋")
++                        print(f"\nThank you for using FinTrack. We hope to see you in the future! 👋👋")
+                         break
+                     else:
+-                        print(f"Something's wrong when we tried to delete the data. Try again one more time!")
++                        print("Something went wrong when trying to delete the data. Try again!")
+                 else:
+                     print("Check your name again!")
+             continue
+ 
+         elif choice == "11":
+             wallet.save_to_file()
+-            print("\nThank you for choosing FinTrack. Have a good day!👋👋\n")
++            print("\nThank you for choosing FinTrack. Have a good day! 👋👋\n")
+             break
+-        
++
+         else:
+             print("\n⚠️ Invalid choice. Please try again.\n")
+ 
+diff --git a/readme.md b/readme.md
+index 22ec1da..1080f84 100644
+--- a/readme.md
++++ b/readme.md
+@@ -6,7 +6,7 @@
+ 
+ ### Primary Features
+ 
+-- [Store transactions (Date, category, amount, description, type)]
++- [Store transactions (Date, category, amount, name, type, description, type)]
+ - [Add new transactions, then view all]
+ - [Analyze expenses and alert for budget limits]
+ 
+
+commit d69ae56969aa2ef0921056fe486427731fbcb8a6
+Author: kainguyen104 <nguyenlenguyen.1042006@gmail.com>
+Date:   Thu Dec 12 22:20:06 2024 -0500
+
+    Kai Nguyen_phase 3
+
+diff --git a/changelog.md b/changelog.md
+index 89e5a47..5af7b33 100644
+--- a/changelog.md
++++ b/changelog.md
+@@ -29,6 +29,6 @@ I am building the code for most of the functions in core.py in order to work log
+ 
+ **Date:** 12/10/2024
+ 
+-[Write your summary here]
++There are more choices and functions created to open more opportunities for users to choose. Also, alert messages also are added for user when nearly reached. A functional FinTrack is coming...
+ 
+ ---
+diff --git a/core.py b/core.py
+index debed03..4fc512e 100644
+--- a/core.py
++++ b/core.py
+@@ -1,20 +1,32 @@
++from transaction import Transaction
+ from datetime import datetime
+-
+-class Transaction:
+-    def __init__(self, amount, category, description):
+-        """Represents a single transaction."""
+-        self.amount = amount
+-        self.category = category
+-        self.description = description
+-        self.date = datetime.now()
++import json
++import os
+ 
+ class FinTrack:
+     def __init__(self):
+         """Initializes a financial tracker with an empty list of transactions."""
++        self.name = ""
++        self.age = 0
+         self.transactions = []
+-        self.initial_balance = 0
++        self.balance = 0
+         self.budget = 0
+         self.savings = 0
++        self.total_expenses = 0
++        self.total_income = 0
++        self.budget_alert_point = 0
++        self.alert_options = []
++        self.expenses_by_category = {}
++        self.income_by_category = {}
++    
++    def set_user_name(self, name):
++        self.name = name
++    
++    def set_user_age(self,age):
++        self.age = age
++
++    def get_user_name(self):
++        return self.name
+ 
+     def set_initial_balance(self):
+         """Prompt the user to input an initial balance."""
+@@ -22,84 +34,233 @@ class FinTrack:
+             try:
+                 balance = float(input("Enter your initial balance👛: $"))
+                 if balance < 0:
+-                    raise ValueError("❗Initial balance cannot be negative.")
+-                self.initial_balance = balance
+-                print(f"Initial balance set to👛: ${self.initial_balance}")
++                    raise ValueError("❗Balance cannot be negative.")
++                self.balance = balance
++                print(f"Balance set to👛: ${self.balance}")
+                 break
+             except ValueError as e:
+-                print(f"⚠ Invalid input: {e}. Please try again.")
++                print(f"⚠️ Invalid input: {e}. Please try again.")
+ 
+     def set_budget(self, budget):
+-        if (budget + self.savings) > self.initial_balance:
+-            raise ValueError(f"Savings is ${self.savings},and balance is ${self.initial_balance}, so budget must be lower than/ equal to {self.initial_balance - self.budget}")
+-        if budget > self.initial_balance:
+-            raise ValueError("❗Budget must be lower than your balance.")
++        if budget > self.balance:
++            raise ValueError(f"❗Budget must be lower than your balance. Remaining balance: ${self.balance}.")
++        if (budget + self.savings) > self.balance:
++            raise ValueError(f"Savings is ${self.savings}, and balance is ${self.balance}, so budget must be lower than or equal to {self.balance - self.savings}")
+         if budget < 0:
+             raise ValueError("❗Budget must be positive.")
+         if self.budget != 0:
+-            print(f"Current budget is set to ${self.budget}. Do you want to set a new budget? ")
+-            new_budget_decision = input("Y(es) or n(o)? ")
+-            if new_budget_decision.lower() == "n" or new_budget_decision.lower() == "no":
+-                print("Keeping old budget.")
+-                return
++            print(f"Current budget is set to ${self.budget}. Do you want to set a new budget?")
++            while True:
++                new_budget_decision = input("Y(es) or n(o)? ").lower()
++                if new_budget_decision in ["n", "no"]:
++                    print("Keeping old budget.")
++                    return
++                elif new_budget_decision in ["y", "yes"]:
++                    break
++                else:
++                    print("⚠️ Invalid input. Please enter 'Y(es)' or 'n(o)'.")
+         self.budget = budget
++        self.budget_alert_point = budget / 2
+         print(f"🔃 Setting budget to ${budget}")
+         return budget
+ 
+     def set_savings(self, savings):
+-        if (savings + self.budget) > self.initial_balance:
+-            raise ValueError(f"❗Budget is ${self.budget},and balance is ${self.initial_balance}, so savings must be lower than/ equal to {self.initial_balance - self.budget}")
+-        if savings < 0: 
++        if savings < 0:
+             raise ValueError("❗Savings must be positive.")
+-        if self.savings != 0: 
+-            print(f"Current savings is set to ${self.savings}. Do you want to set a new savings? ")
+-            new_savings_decision = input("Y(es) or n(o)? ")
+-            if new_savings_decision.lower() == "n" or new_savings_decision.lower() == "no":
+-                print("Keeping old savings.")
+-                return
++        if self.savings != 0:
++            print(f"Current savings is set to ${self.savings}. Do you want to set a new savings?")
++            while True:
++                new_savings_decision = input("Y(es) or n(o)? ").lower()
++                if new_savings_decision in ["n", "no"]:
++                    print("Keeping old savings.")
++                    return
++                elif new_savings_decision in ["y", "yes"]:
++                    break
++                else:
++                    print("⚠️ Invalid input. Please enter 'Y(es)' or 'n(o)'.")
+         self.savings = savings
+         print(f"🔃 Setting savings to ${savings}")
+         return savings
+     
+-    def add_transaction(self, amount, category, description):
++    def add_transaction(self, amount, name, category, description, type):
+         """Add a new transaction (income or expense)."""
+-        transaction = Transaction(amount, category, description)
++        transaction = Transaction(amount, name, category, description, type)
+         self.transactions.append(transaction)
++        if type in ['e', 'expense']:
++            self.total_expenses += amount
++            self.balance -= amount
++        if type in ['i', 'income']:
++            self.total_income += amount
++            self.balance += amount
++        if "budget" in self.alert_options:   
++            self.alert_near_budget()
++        if "savings" in self.alert_options:
++            self.alert_near_savings(type)
++        self.alert_low_balance()
++    
++    def __build_transactions_list(self, transactions, choice, argument):
++        if choice == "sort":
++            if argument in ["date", "name", "amount", "category"]:
++                # Sort by the argument key
++                return sorted(
++                    transactions,
++                    key=lambda t: getattr(t, argument)
++                )
++            else:
++                raise ValueError("Invalid sort argument. Use 'date', 'name', 'amount', or 'category'.")
+ 
+-    def view_transactions(self):
++        elif choice == "search":
++            if argument["key"] in ["name", "category", "type"]:
++                key = argument["key"]
++                value = argument["value"]
++                if key == "type":
++                    # Exact match for type
++                    return [t for t in transactions if t.type == value]
++                else:
++                    # Partial match for name or category
++                    return [t for t in transactions if value.lower() in getattr(t, key).lower()]
++            else:
++                raise ValueError("Invalid search argument. Use 'name', 'category', or 'type'.")
++
++        else:
++            raise ValueError("Invalid choice. Use 'sort' or 'search'.")
++
++    def view_transactions(self, choice, argument):
+         """Print all transactions."""
+-        for i in self.transactions:
+-            print(f"{i.date} | {i.category} | {i.amount} | {i.description}")
++        result_transactions = self.__build_transactions_list(self.transactions, choice, argument)
++
++        print("Transactions Overview".center(100, "="))
++        print(f"{'Date':<20} {'Name':<22} {'Category':<22} {'Amount':<20} {'Type':<20}")
++        print("-" * 100)     
++        for transaction in result_transactions:
++            formatted_transaction_time = transaction.date.strftime("%Y-%m-%d %H:%M:%S")
++            print(f"{formatted_transaction_time} | {transaction.name:<20} | {transaction.category:<20} | ${transaction.amount:<17} | {transaction.type:20}\n") 
++        print("=" * 100)
+ 
+     def view_expenses_analysis(self):
+-        
+-        return #tinh % by category
+-    
++        self.total_expenses = 0
++
++        for transaction in self.transactions:
++            if transaction.type.lower() == "expense":
++                self.total_expenses += transaction.amount
++                if transaction.category in self.expenses_by_category:
++                    self.expenses_by_category[transaction.category] += transaction.amount
++                else:
++                    self.expenses_by_category[transaction.category] = transaction.amount
++
++        print("Expenses Analysis".center(50, "="))
++        print(f"{'Category':<20} {'Amount':<15} {'Percentage':<10}")
++        print("-" * 50)
++
++        for category in self.expenses_by_category:
++            amount = self.expenses_by_category[category]
++            percentage = (amount / self.total_expenses) * 100
++            print(f"{category:<20} ${amount:<14.2f} {percentage:<9.2f}%")
++
++    def view_income_analysis(self):
++        self.total_income = 0
++
++        for transaction in self.transactions:
++            if transaction.type.lower() == "income":
++                self.total_income += transaction.amount
++                if transaction.category in self.income_by_category:
++                    self.income_by_category[transaction.category] += transaction.amount
++                else:
++                    self.income_by_category[transaction.category] = transaction.amount
++
++        print("Income Analysis".center(50, "="))
++        print(f"{'Category':<20} {'Amount':<15} {'Percentage':<10}")
++        print("-" * 50)
++
++        for category in self.income_by_category:
++            amount = self.income_by_category[category]
++            percentage = (amount / self.total_income) * 100
++            print(f"{category:<20} ${amount:<14.2f} {percentage:<9.2f}%")
++
+     def calculate_balance(self):
+         """Return the total balance."""
+-        total = 0
+-        for i in self.transactions:
+-                total += i.amount
+-        return total
++        return self.balance
+ 
+-    def calculate_expenses(self):
++    def get_total_expenses(self):
+         """Return the total expenses (negative amounts)."""
+-        total = 0
+-        for i in self.transactions:
+-            if i.amount < 0:
+-                total += i.amount
+-        return total
+-
+-    def calculate_income(self):
++        return self.total_expenses
++            
++    def get_total_income(self):
+         """Return the total income (positive amounts)."""
+-        total = 0
+-        for i in self.transactions:
+-            if i.amount > 0:
+-                total += i.amount
+-        return total
+-    
++        return self.total_income
++
++    def get_remaining_balance(self):
++        print(f"Remaining balance: ${self.balance}")
++        
+     def alert_near_budget(self):
+-        return
++        if self.total_expenses > self.budget_alert_point:
++            print(f"🚨 Exceeding budget target! Over by ${(self.total_expenses - self.budget_alert_point):.2f}.")
++        else:
++            print(f"💡 You are ${(self.budget_alert_point - self.total_expenses):.2f} away from reaching the budget target.")
++
++    def alert_low_balance(self):
++        if self.balance <= 0: 
++            print(f"Alert! Low remaining balance: ${self.balance}")
++
++    def alert_near_savings(self, transaction_type):
++        if transaction_type == "income":
++            if self.balance >= self.savings:
++                print(f"🎯 Savings goal reached! Current balance: ${self.balance:.2f}. Savings goal: ${self.savings:.2f}")
++            else:
++                print(f"💰 Keep going! You are ${(self.savings - self.balance):.2f} away from reaching your savings goal of ${self.savings:.2f}.")
++
++        elif transaction_type == "expense":
++            if self.balance <= self.savings:
++                print(f"⚠️ Remaining balance has fallen below the savings goal. Current balance: ${self.balance:.2f}. Savings goal: ${self.savings:.2f}")
++            else:
++                print(f"💸 Spending recorded. Current balance: ${self.balance:.2f}. Savings goal: ${self.savings:.2f}")
++
++
++    def add_alert_option(self, option):
++        self.alert_options.append(option)
++    
++    """"""
++
++    
++    def save_to_file(self):
++        """Save data to JSON file."""
++        data = {
++            'name': self.name,
++            'age': self.age,
++            'transactions': [transaction.to_json() for transaction in self.transactions],
++            'balance': self.balance,
++            'budget': self.budget,
++            'savings': self.savings,
++            'total_expenses': self.total_expenses,
++            'total_income': self.total_income,
++            'budget_alert_point': self.budget_alert_point,
++            'alert_options': self.alert_options,
++            'expenses_by_category': self.expenses_by_category,
++            'income_by_category': self.income_by_category,
++        }  
++
++        with open("final-project-kainguyen104/user_data.json", 'w') as f:
++            json.dump(data, f, indent=4)
+     
+-    def alert_near_savings(self):
+-        return
+\ No newline at end of file
++    def load_current_user(self):
++        """Load entries from a JSON file"""
++
++        try:
++            with open("final-project-kainguyen104/user_data.json", 'r') as f:
++                d = json.load(f)
++        
++            self.transactions = [Transaction(t["amount"], t["name"], t["category"], t["description"], t["type"], datetime.fromisoformat(t["date"])) for t in d["transactions"]]
++            self.balance = d["balance"]
++            self.budget = d["budget"]
++            self.savings = d["savings"]
++            self.total_expenses = d["total_expenses"]
++            self.total_income = d["total_income"]
++            self.budget_alert_point = d["budget_alert_point"]
++            self.alert_options = d["alert_options"]
++            self.expenses_by_category = d["expenses_by_category"]
++            self.income_by_category = d["income_by_category"]
++            self.name = d["name"]
++            self.age = d["age"]
++
++        except FileNotFoundError:
++            print(f"File not found.")
+diff --git a/main.py b/main.py
+index 33dcde1..4320961 100644
+--- a/main.py
++++ b/main.py
+@@ -1,76 +1,174 @@
+-from core import Transaction, FinTrack
++from core import FinTrack
++from transaction import Transaction
++from utils import greetings, delete_user_data
+ 
+ def display_menu():
+-    print("\n === What you want to do ===")
+-    print("1. Set budget target")
+-    print("2. Set savings")
+-    print("3. Add transactions")
+-    print("4. View transactions")
+-    print("5. View expenses analysis")
+-    print("6. Exit")
+-    return input("Choose an option (1-6): ")
+-def user_info():
+-    while True:
+-        name = input("Enter your name: ")
+-        if len(name) == 0:
+-            print("Name must not be empty. Please enter your name again.")
+-            continue
+-        while True:
+-            try:
+-                age = int(input("Enter your age: "))
+-                if age <= 0:
+-                    raise ValueError("Age must be positive.")
+-            except ValueError as e:
+-                print(e)
+-                continue
+-            return name, age
++    print("\n === What do you want to do? ===")
++    print("1. Set budget target.")
++    print("2. Set savings.")
++    print("3. Add transactions.")
++    print("4. View transactions.")
++    print("5. View expenses analysis.")
++    print("6. View income analysis.")
++    print("7. View remaining balance.")
++    print("8. View total income.")
++    print("9. View total expense.")
++    print("10. Delete user data.")
++    print("11. Exit.")
++    return input("Choose an option (1-10): ")
+ 
+ wallet = FinTrack()
+ 
+ def main():
+-    print("Welcome to FinTrack !")
+-    # user = user_info()
+-    wallet.set_initial_balance()
++    greetings(wallet)
+     while True:
+         choice = display_menu()
+         if choice == "1":
+             while True:
+                 try:
+-                    budget_target = float(input("Enter your budget target🎯: $"))
++                    budget_target = float(input("\nEnter your budget target🎯: $"))
+                     wallet.set_budget(budget_target)
++                    wallet.add_alert_option("budget")
++                    print("\nBudget target set successfully!\n")
+                     break
+                 except ValueError as e:
+-                    print(f"⚠ Invalid input: {e}. Please try again.")
+-           
++                    print(f"⚠️ Invalid input: {e}. Please try again.\n")
++
+         elif choice == "2":
+             while True:
+                 try:
+-                    set_savings = float(input("Enter your savings goal💰: $"))
++                    set_savings = float(input("\nEnter your savings goal💰: $"))
+                     wallet.set_savings(set_savings)
++                    wallet.add_alert_option("savings")
++                    print("\nSavings goal set successfully!\n")
+                     break
+                 except ValueError as e:
+-                    print(f"⚠ Invalid input: {e}. Please try again.")
+-        
++                    print(f"⚠️ Invalid input: {e}. Please try again.\n")
++
+         elif choice == "3":
+-            print("You chose adding transitions.")
+-            transaction_category = input("What's kind of item you spend on? ")
+-            transaction_amount = int(input("How much money you spend on this item"))
+-            add_transactions = input("Add you transactions➕: ")
+-            return add_transactions
+-        
++            print("\nYou chose to add transactions.➕\n")
++            while True:
++                try:
++                    transaction_amount = float(input("How much money is for this item? $"))
++                    if transaction_amount < 0:
++                        raise ValueError("Money spent cannot be negative.")
++                except ValueError as e:
++                    print(f"⚠️ Invalid input: {e}. Please try again.\n")
++                    continue
++                transaction_name = input("What is the name of this item? ")
++                transaction_category = input("What kind of item did you spend on? ")
++                transaction_description = input("More details about this transaction: ")
++                while True:
++                    transaction_type = input("Is it an income or an expense? I(ncome) or e(xpense): ").lower()
++                    if transaction_type not in ['i', 'income', 'e', 'expense']:
++                        print("⚠️ Invalid input. Please enter 'I(ncome)' or 'e(xpense)'.\n")
++                        continue
++                    transaction_type = "income" if transaction_type in ['i', 'income'] else "expense"
++                    break
++                wallet.add_transaction(transaction_amount, transaction_name, transaction_category, transaction_description, transaction_type)
++
++                add_new_transaction_decision = input("\nDo you want to add another transaction? Y(es) or N(o): ").lower()
++                if add_new_transaction_decision not in ['y', 'yes']:
++                    print("\nYou chose not to add a new transaction.\n")
++                    break
++
+         elif choice == "4":
+-            for i in add_transactions:
+-                print(f"\n  Here are your transactions list📋 \n {i}")
+-        
++            print("\nYou chose to view transactions list📋\n")
++            while True:
++                print("How do you want to view transactions?")
++                print("1. Default (sorted by date - ascending order)")
++                print("2. Sorted by ...")
++                print("3. Search transactions ...")
++                print("4. Enter any other key to cancel\n")
++                view_transaction_choice = input("Enter 1, 2, or 3: ")
++
++                if view_transaction_choice == "1":
++                    wallet.view_transactions("sort", "date")
++                elif view_transaction_choice == "2":
++                    while True:
++                        print("\n1. Sorted by amount")
++                        print("2. Sorted by name")
++                        print("3. Sorted by category")
++                        print("4. Sorted by date")
++                        print("5. Enter any other key to cancel\n")
++                        sorted_by_option = input("Enter 1, 2, 3, or 4: ")
++                        if sorted_by_option == "1":
++                            wallet.view_transactions("sort", "amount")
++                        elif sorted_by_option == "2":
++                            wallet.view_transactions("sort", "name")
++                        elif sorted_by_option == "3":
++                            wallet.view_transactions("sort", "category")
++                        elif sorted_by_option == "4":
++                            wallet.view_transactions("sort", "date")
++                        else:
++                            break
++                        if input("\nView sorted by another option? Y(es) or any other key to exit: ").lower() not in ["y", "yes"]:
++                            break
++                elif view_transaction_choice == "3":
++                    while True:
++                        print("\n1. Filter by name")
++                        print("2. Filter by category")
++                        print("3. Filter by type")
++                        print("4. Enter any other key to cancel\n")
++                        search_by_option = input("Enter 1, 2, or 3: ")
++                        keyword = input("Enter a keyword: ")
++                        if search_by_option == "1":
++                            wallet.view_transactions("search", {"key": "name", "value": keyword})
++                        elif search_by_option == "2":
++                            wallet.view_transactions("search", {"key": "category", "value": keyword})
++                        elif search_by_option == "3":
++                            wallet.view_transactions("search", {"key": "type", "value": keyword})
++                        else:
++                            break
++                        if input("\nSearch by another filter? Y(es) or any other key to exit: ").lower() not in ["y", "yes"]:
++                            break
++                else:
++                    break
++
+         elif choice == "5":
+-            print(f"\n Here is your expenses analysis📈 \n")
++            print("\nHere is your expenses analysis📈\n")
++            print(f"Your total expenses: {wallet.total_expenses}")
++            wallet.view_expenses_analysis()
+ 
+         elif choice == "6":
+-            print(f"Thank you for choosing FinTrack. Have a good day!👋👋")
++            print("\nHere is your income analysis📈\n")
++            print(f"Your total income: {wallet.total_income}")
++            wallet.view_income_analysis()
++
++        elif choice == "7":
++            print("\nYou chose to view remaining balance:\n")
++            wallet.get_remaining_balance()
++
++        elif choice == "8":
++            print("\nYou chose to view total income:\n")
++            print(f"Total income: ${wallet.get_total_income()}\n")
++
++        elif choice == "9":
++            print("\nYou chose to view total expenses:\n")
++            print(f"Total expenses: ${wallet.get_total_expenses()}\n")
++
++        elif choice == "10":
++            print("You are going to make a very critical decision⚠️ ⚠️ ⚠️")
++            delete_decision = input("Are you sure you want to delete your data? Y(es) or any key to go back ").lower()
++            if delete_decision in ["y", "yes"]:
++                confirm_name = input("Please confirm your name: ").lower()
++                if confirm_name == wallet.get_user_name().lower():
++                    if delete_user_data():
++                        print(f"\nThank you for using FinTrack. We hope to see you in the future!👋👋")
++                        break
++                    else:
++                        print(f"Something's wrong when we tried to delete the data. Try again one more time!")
++                else:
++                    print("Check your name again!")
++            continue
++
++        elif choice == "11":
++            wallet.save_to_file()
++            print("\nThank you for choosing FinTrack. Have a good day!👋👋\n")
+             break
+         
+         else:
+-            print("\nInvalid choice. Please try again.")
++            print("\n⚠️ Invalid choice. Please try again.\n")
+ 
+ if __name__ == "__main__":
+-    main()
+\ No newline at end of file
++    main()
+diff --git a/readme.md b/readme.md
+index 83e06f9..22ec1da 100644
+--- a/readme.md
++++ b/readme.md
+@@ -6,7 +6,7 @@
+ 
+ ### Primary Features
+ 
+-- [Store transactions (Date, category, amount, description)]
++- [Store transactions (Date, category, amount, description, type)]
+ - [Add new transactions, then view all]
+ - [Analyze expenses and alert for budget limits]
+ 
+@@ -35,7 +35,7 @@
+ 
+ 1. Install dependencies
+ 
+-[TODO: Document your project dependencies here]
++No dependency
+ 
+ ```bash
+ pip install <dependency>
+@@ -55,11 +55,6 @@ python test.py
+ # If using CLI interface:
+ python main.py
+ 
+-# If using web interface:
+-python web.py
+-
+-# If using game interface:
+-python game.py
+ 
+ # Any other interface you choose
+ 
+@@ -73,20 +68,20 @@ See [changelog.md](changelog.md) for detailed development updates.
+ 
+ ## Future Ideas
+ 
+-- [Idea 1]
+-- [Idea 2]
+-- [Idea 3]
++- [Building a beautiful user interface using web framework]
++- [Enabling multi user support: sign up, login, logout, authentication]
++- [Enabling AI's advice on financial planning]
+ 
+ ## AI Usage
+ 
+-[Describe which parts of your project used AI assistance]
++function: def __build_transactions_list(self, transactions, choice, argument) in core.py
++I have to consult Chatgpt for the complicated logic of sorting and filtering
+ 
+ ## Resources Used
+ 
+-- [Resource 1]
+-- [Resource 2]
+-- [Course materials]
++- (https://docs.python.org/3/library/json.html): I needed to consult this python website to better understand how to handle json data (serialize and deserialize)
++- Course materials: I needed to write and read data into file.
+ 
+ ---
+ 
+-Created by [Your Name] for [Course Name]
++Created by Kai Nguyen for CSC-121
+diff --git a/test.py b/test.py
+index f5623a9..c4fafee 100644
+--- a/test.py
++++ b/test.py
+@@ -1,28 +1,30 @@
+-from datetime import datetime
+-from core import Transaction, FinTrack
++from core import FinTrack
++from transaction import Transaction
+ 
+ def test_new_fin_track():
+     tracker = FinTrack()
+     assert len(tracker.transactions) == 0, "New financial tracker should have no transactions"
+-    print("✓ New financial tracker test passed")
++    print("✓  New financial tracker test passed")
+ 
+ def test_add_transaction():
+     tracker = FinTrack()
+-    tracker.add_transaction(-100, "Food", "Groceries")
++    tracker.add_transaction(-100, "Groceries", "Food", "Weekly groceries", "expense")
+     assert len(tracker.transactions) == 1, "Tracker should have one transaction"
+     transaction = tracker.transactions[0]
+     assert transaction.amount == -100, "Transaction should have the correct amount"
+     assert transaction.category == "Food", "Transaction should have the correct category"
+-    print("✓ Add transaction test passed")
++    assert transaction.name == "Groceries", "Transaction should have the correct name"
++    print("✓  Add transaction test passed")
+ 
+ def test_calculate_totals():
+     tracker = FinTrack()
+-    tracker.add_transaction(-50, "Food", "Lunch")
+-    tracker.add_transaction(500, "Income", "Salary")
+-    assert tracker.calculate_expenses() == -50, "Total expenses should be -50"
+-    assert tracker.calculate_income() == 500, "Total income should be 500"
++    tracker.add_transaction(50, "Lunch", "Food", "Lunch expense", "expense")  
++    tracker.add_transaction(500, "Salary", "Income", "Monthly salary", "income")  
++    assert tracker.get_total_expenses() == 50, "Total expenses should be 50"
++    assert tracker.get_total_income() == 500, "Total income should be 500"
+     assert tracker.calculate_balance() == 450, "Balance should be 450"
+-    print("✓ Calculate totals test passed")
++    print("✓  Calculate totals test passed")
++
+ 
+ if __name__ == "__main__":
+     print("Running financial tracker tests...\n")
+@@ -30,6 +32,6 @@ if __name__ == "__main__":
+         test_new_fin_track()
+         test_add_transaction()
+         test_calculate_totals()
+-        print("\nAll tests passed! ✨")
++        print("\nAll tests passed! ✓ ")
+     except AssertionError as e:
+         print(f"\n❌ Test failed: {str(e)}")
+diff --git a/transaction.py b/transaction.py
+new file mode 100644
+index 0000000..0b95211
+--- /dev/null
++++ b/transaction.py
+@@ -0,0 +1,24 @@
++from datetime import datetime
++
++class Transaction:
++    def __init__(self, amount, name, category, description, type, date=None):
++        """Represents a single transaction."""
++        self.amount = amount
++        self.name = name
++        self.category = category
++        self.description = description
++        if date is None:
++            self.date = datetime.now()
++        else:
++            self.date = date
++        self.type = type
++        
++    def to_json(self):
++        return {
++            "amount": self.amount,
++            "name": self.name,
++            "category": self.category,
++            "description": self.description,
++            "date": self.date.isoformat(),
++            "type": self.type
++        }
+\ No newline at end of file
+diff --git a/utils.py b/utils.py
+new file mode 100644
+index 0000000..da6d6cd
+--- /dev/null
++++ b/utils.py
+@@ -0,0 +1,44 @@
++from core import FinTrack
++import os
++
++def greetings(wallet:FinTrack):
++    if __is_new_user():
++        user = __user_info()
++        wallet.set_user_name(user[0])
++        wallet.set_user_age(user[1])
++        print(f"Welcome to FinTrack, {wallet.get_user_name()}!")
++        wallet.set_initial_balance()
++        wallet.save_to_file()
++    else:
++        wallet.load_current_user()
++        print(f"Welcome back to FinTrack, {wallet.get_user_name()}!")
++    
++def __user_info():
++    while True:
++        name = input("Enter your name: ")
++        if len(name) == 0:
++            print("Name must not be empty. Please enter your name again.\n")
++            continue
++        while True:
++            try:
++                age = int(input("Enter your age: "))
++                if age <= 0:
++                    raise ValueError("Age must be positive.")
++            except ValueError as e:
++                print(f"{e}\n")
++                continue
++            return name, age
++
++def __is_new_user():
++    return not os.path.exists("final-project-kainguyen104/user_data.json")
++
++def delete_user_data():
++    """Deletes the specified file."""
++    if os.path.exists("final-project-kainguyen104/user_data.json"):
++        os.remove("final-project-kainguyen104/user_data.json")
++        print(f"\nUser has been successfully deleted.")
++        return True
++    else:
++        print(f"Failed to delete user.")
++        return False
++        
+\ No newline at end of file
+
+commit de67d0fe5fa0fe61df19604d64da3f97427ec4c2
+Author: kainguyen104 <nguyenlenguyen.1042006@gmail.com>
+Date:   Thu Dec 5 16:10:16 2024 -0500
+
+    Kai Nguyen_phase 2_updated
+
+diff --git a/changelog.md b/changelog.md
+index b09a72f..89e5a47 100644
+--- a/changelog.md
++++ b/changelog.md
+@@ -21,7 +21,7 @@ I created more functions for FinTrack to make it more diverse in tools ( calcula
+ 
+ **Date:** 12/05/2024
+ 
+-[Write your summary here]
++I am building the code for most of the functions in core.py in order to work logically(fix user's input error). Moreover, greeting and user's information are also added to my program.
+ 
+ ---
+ 
+diff --git a/core.py b/core.py
+index 30b5132..debed03 100644
+--- a/core.py
++++ b/core.py
+@@ -14,6 +14,7 @@ class FinTrack:
+         self.transactions = []
+         self.initial_balance = 0
+         self.budget = 0
++        self.savings = 0
+ 
+     def set_initial_balance(self):
+         """Prompt the user to input an initial balance."""
+@@ -21,18 +22,20 @@ class FinTrack:
+             try:
+                 balance = float(input("Enter your initial balance👛: $"))
+                 if balance < 0:
+-                    raise ValueError("Initial balance cannot be negative.")
++                    raise ValueError("❗Initial balance cannot be negative.")
+                 self.initial_balance = balance
+                 print(f"Initial balance set to👛: ${self.initial_balance}")
+                 break
+             except ValueError as e:
+-                print(f"Invalid input: {e}. Please try again.")
++                print(f"⚠ Invalid input: {e}. Please try again.")
+ 
+     def set_budget(self, budget):
++        if (budget + self.savings) > self.initial_balance:
++            raise ValueError(f"Savings is ${self.savings},and balance is ${self.initial_balance}, so budget must be lower than/ equal to {self.initial_balance - self.budget}")
+         if budget > self.initial_balance:
+-            raise ValueError("Budget must be lower than your balance.")
++            raise ValueError("❗Budget must be lower than your balance.")
+         if budget < 0:
+-            raise ValueError("Budget must be positive.")
++            raise ValueError("❗Budget must be positive.")
+         if self.budget != 0:
+             print(f"Current budget is set to ${self.budget}. Do you want to set a new budget? ")
+             new_budget_decision = input("Y(es) or n(o)? ")
+@@ -40,18 +43,22 @@ class FinTrack:
+                 print("Keeping old budget.")
+                 return
+         self.budget = budget
+-        print(f"Setting budget to ${budget}")
++        print(f"🔃 Setting budget to ${budget}")
+         return budget
+ 
+     def set_savings(self, savings):
+-        while True:
+-            try:
+-                savings = float(input("Enter your savings goal💰: $"))
+-                if savings < 0:
+-                    raise ValueError("Savings goal cannot be negative.")
+-                break
+-            except ValueError as e:
+-                print(f"Invalid input: {e}. Please try again.")
++        if (savings + self.budget) > self.initial_balance:
++            raise ValueError(f"❗Budget is ${self.budget},and balance is ${self.initial_balance}, so savings must be lower than/ equal to {self.initial_balance - self.budget}")
++        if savings < 0: 
++            raise ValueError("❗Savings must be positive.")
++        if self.savings != 0: 
++            print(f"Current savings is set to ${self.savings}. Do you want to set a new savings? ")
++            new_savings_decision = input("Y(es) or n(o)? ")
++            if new_savings_decision.lower() == "n" or new_savings_decision.lower() == "no":
++                print("Keeping old savings.")
++                return
++        self.savings = savings
++        print(f"🔃 Setting savings to ${savings}")
+         return savings
+     
+     def add_transaction(self, amount, category, description):
+diff --git a/main.py b/main.py
+index a8492cc..33dcde1 100644
+--- a/main.py
++++ b/main.py
+@@ -38,23 +38,23 @@ def main():
+                 try:
+                     budget_target = float(input("Enter your budget target🎯: $"))
+                     wallet.set_budget(budget_target)
+-                    choice = display_menu()
++                    break
+                 except ValueError as e:
+-                    print(f"Invalid input: {e}. Please try again.")
++                    print(f"⚠ Invalid input: {e}. Please try again.")
+            
+-        
+         elif choice == "2":
+             while True:
+                 try:
+-                    savings = float(input("Enter your savings goal💰: $"))
+-                    if savings < 0:
+-                        raise ValueError("Savings goal cannot be negative.")
++                    set_savings = float(input("Enter your savings goal💰: $"))
++                    wallet.set_savings(set_savings)
+                     break
+                 except ValueError as e:
+-                    print(f"Invalid input: {e}. Please try again.")
+-            return savings
++                    print(f"⚠ Invalid input: {e}. Please try again.")
+         
+         elif choice == "3":
++            print("You chose adding transitions.")
++            transaction_category = input("What's kind of item you spend on? ")
++            transaction_amount = int(input("How much money you spend on this item"))
+             add_transactions = input("Add you transactions➕: ")
+             return add_transactions
+         
+
+commit be794713a0396fc5f644d51d2c91ab9e0333915d
+Author: kainguyen104 <nguyenlenguyen.1042006@gmail.com>
+Date:   Thu Dec 5 00:16:31 2024 -0500
+
+    Kai Nguyen_phase 2
+
+diff --git a/changelog.md b/changelog.md
+index 8676c24..b09a72f 100644
+--- a/changelog.md
++++ b/changelog.md
+@@ -4,8 +4,8 @@
+ 
+ **Date:** 11/14/2024
+ 
+-[I read all the phase 1 for my project. Moreover, I've set up the core.py and test.py for my project to work correctly.
+-It would be a foundation for my final project.]
++I read all the phase 1 for my project. Moreover, I've set up the core.py and test.py for my project to work correctly.
++It would be a foundation for my final project.
+ 
+ ---
+ 
+@@ -13,7 +13,7 @@ It would be a foundation for my final project.]
+ 
+ **Date:** 11/21/2024
+ 
+-[Write your summary here]
++I created more functions for FinTrack to make it more diverse in tools ( calculate: income, balance, expenses; set: savings target, budget target; alert: savings, budget; view: expenses analysis, transactions history; etc.), which can offer more options for users to choose in order to meet their requirements.
+ 
+ ---
+ 
+diff --git a/core.py b/core.py
+index 2164b39..30b5132 100644
+--- a/core.py
++++ b/core.py
+@@ -12,7 +12,48 @@ class FinTrack:
+     def __init__(self):
+         """Initializes a financial tracker with an empty list of transactions."""
+         self.transactions = []
++        self.initial_balance = 0
++        self.budget = 0
+ 
++    def set_initial_balance(self):
++        """Prompt the user to input an initial balance."""
++        while True:
++            try:
++                balance = float(input("Enter your initial balance👛: $"))
++                if balance < 0:
++                    raise ValueError("Initial balance cannot be negative.")
++                self.initial_balance = balance
++                print(f"Initial balance set to👛: ${self.initial_balance}")
++                break
++            except ValueError as e:
++                print(f"Invalid input: {e}. Please try again.")
++
++    def set_budget(self, budget):
++        if budget > self.initial_balance:
++            raise ValueError("Budget must be lower than your balance.")
++        if budget < 0:
++            raise ValueError("Budget must be positive.")
++        if self.budget != 0:
++            print(f"Current budget is set to ${self.budget}. Do you want to set a new budget? ")
++            new_budget_decision = input("Y(es) or n(o)? ")
++            if new_budget_decision.lower() == "n" or new_budget_decision.lower() == "no":
++                print("Keeping old budget.")
++                return
++        self.budget = budget
++        print(f"Setting budget to ${budget}")
++        return budget
++
++    def set_savings(self, savings):
++        while True:
++            try:
++                savings = float(input("Enter your savings goal💰: $"))
++                if savings < 0:
++                    raise ValueError("Savings goal cannot be negative.")
++                break
++            except ValueError as e:
++                print(f"Invalid input: {e}. Please try again.")
++        return savings
++    
+     def add_transaction(self, amount, category, description):
+         """Add a new transaction (income or expense)."""
+         transaction = Transaction(amount, category, description)
+@@ -23,6 +64,10 @@ class FinTrack:
+         for i in self.transactions:
+             print(f"{i.date} | {i.category} | {i.amount} | {i.description}")
+ 
++    def view_expenses_analysis(self):
++        
++        return #tinh % by category
++    
+     def calculate_balance(self):
+         """Return the total balance."""
+         total = 0
+@@ -44,4 +89,10 @@ class FinTrack:
+         for i in self.transactions:
+             if i.amount > 0:
+                 total += i.amount
+-        return total
+\ No newline at end of file
++        return total
++    
++    def alert_near_budget(self):
++        return
++    
++    def alert_near_savings(self):
++        return
+\ No newline at end of file
+diff --git a/main.py b/main.py
+new file mode 100644
+index 0000000..a8492cc
+--- /dev/null
++++ b/main.py
+@@ -0,0 +1,76 @@
++from core import Transaction, FinTrack
++
++def display_menu():
++    print("\n === What you want to do ===")
++    print("1. Set budget target")
++    print("2. Set savings")
++    print("3. Add transactions")
++    print("4. View transactions")
++    print("5. View expenses analysis")
++    print("6. Exit")
++    return input("Choose an option (1-6): ")
++def user_info():
++    while True:
++        name = input("Enter your name: ")
++        if len(name) == 0:
++            print("Name must not be empty. Please enter your name again.")
++            continue
++        while True:
++            try:
++                age = int(input("Enter your age: "))
++                if age <= 0:
++                    raise ValueError("Age must be positive.")
++            except ValueError as e:
++                print(e)
++                continue
++            return name, age
++
++wallet = FinTrack()
++
++def main():
++    print("Welcome to FinTrack !")
++    # user = user_info()
++    wallet.set_initial_balance()
++    while True:
++        choice = display_menu()
++        if choice == "1":
++            while True:
++                try:
++                    budget_target = float(input("Enter your budget target🎯: $"))
++                    wallet.set_budget(budget_target)
++                    choice = display_menu()
++                except ValueError as e:
++                    print(f"Invalid input: {e}. Please try again.")
++           
++        
++        elif choice == "2":
++            while True:
++                try:
++                    savings = float(input("Enter your savings goal💰: $"))
++                    if savings < 0:
++                        raise ValueError("Savings goal cannot be negative.")
++                    break
++                except ValueError as e:
++                    print(f"Invalid input: {e}. Please try again.")
++            return savings
++        
++        elif choice == "3":
++            add_transactions = input("Add you transactions➕: ")
++            return add_transactions
++        
++        elif choice == "4":
++            for i in add_transactions:
++                print(f"\n  Here are your transactions list📋 \n {i}")
++        
++        elif choice == "5":
++            print(f"\n Here is your expenses analysis📈 \n")
++
++        elif choice == "6":
++            print(f"Thank you for choosing FinTrack. Have a good day!👋👋")
++            break
++        
++        else:
++            print("\nInvalid choice. Please try again.")
++
++if __name__ == "__main__":
++    main()
+\ No newline at end of file
+diff --git a/test.py b/test.py
+index 9dbe35d..f5623a9 100644
+--- a/test.py
++++ b/test.py
+@@ -1,50 +1,5 @@
+ from datetime import datetime
+-
+-class Transaction:
+-    def __init__(self, amount, category, description):
+-        """Represents a single transaction."""
+-        self.amount = amount
+-        self.category = category
+-        self.description = description
+-        self.date = datetime.now()
+-
+-class FinTrack:
+-    def __init__(self):
+-        """Initializes a financial tracker with an empty list of transactions."""
+-        self.transactions = []
+-
+-    def add_transaction(self, amount, category, description):
+-        """Add a new transaction (income or expense)."""
+-        transaction = Transaction(amount, category, description)
+-        self.transactions.append(transaction)
+-
+-    def view_transactions(self):
+-        """Print all transactions."""
+-        for i in self.transactions:
+-            print(f"{i.date} | {i.category} | {i.amount} | {i.description}")
+-
+-    def calculate_balance(self):
+-        """Return the total balance."""
+-        total = 0
+-        for i in self.transactions:
+-                total += i.amount
+-        return total
+-
+-    def calculate_expenses(self):
+-        """Return the total expenses (negative amounts)."""
+-        total = 0
+-        for i in self.transactions:
+-            if i.amount < 0:
+-                total += i.amount
+-        return total
+-
+-    def calculate_income(self):
+-        """Return the total income (positive amounts)."""
+-        total = 0
+-        for i in self.transactions:
+-            if i.amount > 0:
+-                total += i.amount
+-        return total
++from core import Transaction, FinTrack
+ 
+ def test_new_fin_track():
+     tracker = FinTrack()
+
+commit 6488ef0509882102e261ee3b59b230c911fa4fee
+Author: kainguyen104 <nguyenlenguyen.1042006@gmail.com>
+Date:   Thu Nov 21 15:53:41 2024 -0500
+
+    Kai Nguyen_phase 1
+
+diff --git a/changelog.md b/changelog.md
+index 77f74da..8676c24 100644
+--- a/changelog.md
++++ b/changelog.md
+@@ -4,7 +4,8 @@
+ 
+ **Date:** 11/14/2024
+ 
+-[Write your summary here]
++[I read all the phase 1 for my project. Moreover, I've set up the core.py and test.py for my project to work correctly.
++It would be a foundation for my final project.]
+ 
+ ---
+ 
+diff --git a/core.py b/core.py
+index c29711f..2164b39 100644
+--- a/core.py
++++ b/core.py
+@@ -1 +1,47 @@
+-# Your core business logic (classes) should be defined here
+\ No newline at end of file
++from datetime import datetime
++
++class Transaction:
++    def __init__(self, amount, category, description):
++        """Represents a single transaction."""
++        self.amount = amount
++        self.category = category
++        self.description = description
++        self.date = datetime.now()
++
++class FinTrack:
++    def __init__(self):
++        """Initializes a financial tracker with an empty list of transactions."""
++        self.transactions = []
++
++    def add_transaction(self, amount, category, description):
++        """Add a new transaction (income or expense)."""
++        transaction = Transaction(amount, category, description)
++        self.transactions.append(transaction)
++
++    def view_transactions(self):
++        """Print all transactions."""
++        for i in self.transactions:
++            print(f"{i.date} | {i.category} | {i.amount} | {i.description}")
++
++    def calculate_balance(self):
++        """Return the total balance."""
++        total = 0
++        for i in self.transactions:
++                total += i.amount
++        return total
++
++    def calculate_expenses(self):
++        """Return the total expenses (negative amounts)."""
++        total = 0
++        for i in self.transactions:
++            if i.amount < 0:
++                total += i.amount
++        return total
++
++    def calculate_income(self):
++        """Return the total income (positive amounts)."""
++        total = 0
++        for i in self.transactions:
++            if i.amount > 0:
++                total += i.amount
++        return total
+\ No newline at end of file
+diff --git a/readme.md b/readme.md
+index ddec532..83e06f9 100644
+--- a/readme.md
++++ b/readme.md
+@@ -1,21 +1,21 @@
+-# [Your Project Name]
++# [FinTrack]
+ 
+ ## Overview
+ 
+-[Briefly describe what your project does and why you made it]
++[Hi, I’m Kai Nguyen, and my project is called ‘FinTrack.’ Many people find it hard to track their spending and manage their budgets, which can cause financial stress. FinTrack is a tool that analyzes income, expenses, and savings, helping users see where their money goes, like food, entertainment, and bills. What makes FinTrack special is its ability to find saving opportunities and send alerts when users are close to their budget limits. I’m excited to develop FinTrack to help people make better financial decisions and take control of their money.]
+ 
+ ### Primary Features
+ 
+-- [Feature 1]
+-- [Feature 2]
+-- [Feature 3]
++- [Store transactions (Date, category, amount, description)]
++- [Add new transactions, then view all]
++- [Analyze expenses and alert for budget limits]
+ 
+ ---
+ 
+ ## Project Structure
+ 
+ ```
+-[project-name]/
++[FinTrack]/
+ │   # Phase 1: Business logic:
+ ├── core.py          # Core business logic
+ ├── test.py          # Tests for business logic
+diff --git a/test.py b/test.py
+index a1339c2..9dbe35d 100644
+--- a/test.py
++++ b/test.py
+@@ -1 +1,80 @@
+-# Write your business logic tests here
+\ No newline at end of file
++from datetime import datetime
++
++class Transaction:
++    def __init__(self, amount, category, description):
++        """Represents a single transaction."""
++        self.amount = amount
++        self.category = category
++        self.description = description
++        self.date = datetime.now()
++
++class FinTrack:
++    def __init__(self):
++        """Initializes a financial tracker with an empty list of transactions."""
++        self.transactions = []
++
++    def add_transaction(self, amount, category, description):
++        """Add a new transaction (income or expense)."""
++        transaction = Transaction(amount, category, description)
++        self.transactions.append(transaction)
++
++    def view_transactions(self):
++        """Print all transactions."""
++        for i in self.transactions:
++            print(f"{i.date} | {i.category} | {i.amount} | {i.description}")
++
++    def calculate_balance(self):
++        """Return the total balance."""
++        total = 0
++        for i in self.transactions:
++                total += i.amount
++        return total
++
++    def calculate_expenses(self):
++        """Return the total expenses (negative amounts)."""
++        total = 0
++        for i in self.transactions:
++            if i.amount < 0:
++                total += i.amount
++        return total
++
++    def calculate_income(self):
++        """Return the total income (positive amounts)."""
++        total = 0
++        for i in self.transactions:
++            if i.amount > 0:
++                total += i.amount
++        return total
++
++def test_new_fin_track():
++    tracker = FinTrack()
++    assert len(tracker.transactions) == 0, "New financial tracker should have no transactions"
++    print("✓ New financial tracker test passed")
++
++def test_add_transaction():
++    tracker = FinTrack()
++    tracker.add_transaction(-100, "Food", "Groceries")
++    assert len(tracker.transactions) == 1, "Tracker should have one transaction"
++    transaction = tracker.transactions[0]
++    assert transaction.amount == -100, "Transaction should have the correct amount"
++    assert transaction.category == "Food", "Transaction should have the correct category"
++    print("✓ Add transaction test passed")
++
++def test_calculate_totals():
++    tracker = FinTrack()
++    tracker.add_transaction(-50, "Food", "Lunch")
++    tracker.add_transaction(500, "Income", "Salary")
++    assert tracker.calculate_expenses() == -50, "Total expenses should be -50"
++    assert tracker.calculate_income() == 500, "Total income should be 500"
++    assert tracker.calculate_balance() == 450, "Balance should be 450"
++    print("✓ Calculate totals test passed")
++
++if __name__ == "__main__":
++    print("Running financial tracker tests...\n")
++    try:
++        test_new_fin_track()
++        test_add_transaction()
++        test_calculate_totals()
++        print("\nAll tests passed! ✨")
++    except AssertionError as e:
++        print(f"\n❌ Test failed: {str(e)}")
+
+commit 6884a7c3147d6367c22796462071a2a5a933c161
+Author: github-classroom[bot] <66690702+github-classroom[bot]@users.noreply.github.com>
+Date:   Thu Nov 14 19:51:10 2024 +0000
+
+    Initial commit
+
+diff --git a/changelog.md b/changelog.md
+new file mode 100644
+index 0000000..77f74da
+--- /dev/null
++++ b/changelog.md
+@@ -0,0 +1,33 @@
++# Final Project Changelog
++
++## Week 1
++
++**Date:** 11/14/2024
++
++[Write your summary here]
++
++---
++
++## Week 2
++
++**Date:** 11/21/2024
++
++[Write your summary here]
++
++---
++
++## Week 3 - 4
++
++**Date:** 12/05/2024
++
++[Write your summary here]
++
++---
++
++## Week 5 (final week)
++
++**Date:** 12/10/2024
++
++[Write your summary here]
++
++---
+diff --git a/core.py b/core.py
+new file mode 100644
+index 0000000..c29711f
+--- /dev/null
++++ b/core.py
+@@ -0,0 +1 @@
++# Your core business logic (classes) should be defined here
+\ No newline at end of file
+diff --git a/readme.md b/readme.md
+new file mode 100644
+index 0000000..ddec532
+--- /dev/null
++++ b/readme.md
+@@ -0,0 +1,92 @@
++# [Your Project Name]
++
++## Overview
++
++[Briefly describe what your project does and why you made it]
++
++### Primary Features
++
++- [Feature 1]
++- [Feature 2]
++- [Feature 3]
++
++---
++
++## Project Structure
++
++```
++[project-name]/
++│   # Phase 1: Business logic:
++├── core.py          # Core business logic
++├── test.py          # Tests for business logic
++│
++│   # Phase 2: Choose one or more of these UI options:
++├── main.py          # CLI interface (optional)
++├── web.py          # Web interface (optional)
++├── game.py         # Game interface (optional)
++│
++├── readme.md       # This file
++├── changelog.md    # Weekly development updates
++├── /data          # Data files
++└── /resources     # Course resources and help
++```
++
++## Getting Started
++
++1. Install dependencies
++
++[TODO: Document your project dependencies here]
++
++```bash
++pip install <dependency>
++...
++```
++
++2. Run business logic tests
++
++```bash
++python test.py
++```
++
++3. Run the program
++   [Choose the appropriate command based on your UI choice:]
++
++```bash
++# If using CLI interface:
++python main.py
++
++# If using web interface:
++python web.py
++
++# If using game interface:
++python game.py
++
++# Any other interface you choose
++
++```
++
++[Update these instructions to match your chosen interface]
++
++## Weekly Progress
++
++See [changelog.md](changelog.md) for detailed development updates.
++
++## Future Ideas
++
++- [Idea 1]
++- [Idea 2]
++- [Idea 3]
++
++## AI Usage
++
++[Describe which parts of your project used AI assistance]
++
++## Resources Used
++
++- [Resource 1]
++- [Resource 2]
++- [Course materials]
++
++---
++
++Created by [Your Name] for [Course Name]
+diff --git a/resources/ai-assistance.md b/resources/ai-assistance.md
+new file mode 100644
+index 0000000..52a5c86
+--- /dev/null
++++ b/resources/ai-assistance.md
+@@ -0,0 +1,9 @@
++## AI Assistance
++
++You are encouraged to use AI to help with non-core parts of your program especially for areas like debugging, UI/UX, and library integration. However, you must follow the guidelines outlined in the [Final Project Guide](./final-project-guide.md).
++
++Resources:
++
++- [ChaptGPT](https://chaptgpt.com/): A good baseline model for general tasks
++- [Claude](https://claude.ai/): A very capable AI that is especially good at talking through problems and giving guidance
++- [Prompt Engineering Tutorial](./prompt-engineering.md)
+diff --git a/resources/final-project-guide.md b/resources/final-project-guide.md
+new file mode 100644
+index 0000000..f302c57
+--- /dev/null
++++ b/resources/final-project-guide.md
+@@ -0,0 +1,96 @@
++# Final Project Guide
++
++## Overview
++
++Welcome to your final project! You'll have approximately 3.5 weeks to complete this project, which will be developed in three primary phases:
++
++- **Phase 1:** Business Logic + Tests
++- **Phase 2:** UI/UX (terminal, web, game interface, etc.)
++- **Phase 3:** Data Persistence, Quality Assurance, and Documentation
++
++You will work from the same repository throughout all phases and maintain a weekly changelog.
++
++## Project Requirements
++
++### 🔄 Ongoing
++
++For each phase of the project, you must:
++
++- Make frequent commits and push to GitHub regularly
++- Write a weekly changelog in your repository
++- Ensure your code is well-documented and tested
++
++### 💯 Grading Criteria
++
++Your final project grade carries more weight than any other project in the class. You'll be evaluated on:
++
++**Core Functions**
++
++- Functional and well-organized business logic
++- Clear documentation and comprehensive testing
++- Evidence of original work
++
++**Professionalism**
++
++- Proactive engagement with TAs and instructor
++- Effective use of office hours when needed
++- Clear documentation of challenges and solutions
++
++**Weekly Progress**
++
++- Consistent development across all phases
++- Regular, meaningful commits
++- Avoiding last-minute submissions
++
++**User Experience**
++
++- Interface clarity and ease of use
++- Intuitive navigation and functionality
++- Error handling and user feedback
++
++**Creativity**
++
++- Implementation of external libraries
++- Integration of new technologies
++- Creative use of generative AI for enhanced features
++
++## 📚 Support Resources
++
++### Project Repository
++
++A `/resources` folder in your repository will contain:
++
++- Helpful links
++- Tutorials
++- Additional resources added by instructors throughout the project
++
++### Available Support
++
++- In-class work sessions
++- Lab time for project development
++- Individual meetings with instructor/TAs
++- Discord and email support for questions
++- Code review sessions by request
++
++### 🤖 AI Usage Guidelines
++
++You are encouraged to take advantage of generative AIs like ChaptGPT or Claude during your project. However, you must follow these guidelines:
++
++**Permitted:**
++
++- Debugging assistance
++- Non-core feature development
++- Library integration help
++- UI/UX enhancements
++
++**Not Permitted:**
++
++- Core business logic implementation
++- Direct code copying
++- Test implementation copying
++
++_Important: If you do use AI in your project, be sure to note how and what you used it for in your changelog._
++
++## Important Note
++
++The core business logic must be your original work, as it will be part of your final exam evaluation.
+diff --git a/resources/prompt-engineering.md b/resources/prompt-engineering.md
+new file mode 100644
+index 0000000..f77a8ea
+--- /dev/null
++++ b/resources/prompt-engineering.md
+@@ -0,0 +1,240 @@
++# Beginner's Guide to Prompt Engineering
++
++## What is Prompt Engineering?
++
++Prompt engineering is the art of crafting effective questions and instructions for AI models like Claude or ChatGPT. Think of it like learning to ask questions in a way that helps you get the most helpful answers!
++
++## Core Principles
++
++### 1. Be Specific and Clear
++
++Instead of writing:
++
++```
++"Help me with Python"
++```
++
++Write:
++
++```
++"Can you help me write a Python function that takes a list of numbers and returns their average? Please include comments explaining each step."
++```
++
++**Note: Remember you need to understand and write the code yourself. The AI can be a helpful guide and proivde suggestions, but you should be the one writing the code.**
++
++### 2. Provide Context and Examples
++
++Instead of writing:
++
++```
++"How do I sort data?"
++```
++
++Write:
++
++```
++"I have a CSV file with student grades containing columns for 'Name', 'Grade', and 'Subject'.
++I want to sort this data by Grade in descending order. Here's an example of my data:
++
++Name,Grade,Subject
++John,85,Math
++Lisa,92,Math
++Tom,78,Math
++
++Can you show me how to do this using Python pandas?"
++```
++
++### 3. Break Down Complex Tasks
++
++Instead of writing:
++
++```
++"Build me a website"
++```
++
++Write:
++
++```
++"I want to create a simple personal website. Let's break this down into steps:
++1. First, can you help me create the HTML structure for a homepage?
++2. Then, we'll add basic CSS styling
++3. Finally, we'll make it responsive
++
++Let's start with step 1 - what HTML structure do you recommend?"
++```
++
++## Advanced Techniques
++
++### 1. Role and Format Specification
++
++```
++"Act as a Python tutor explaining concepts to a beginner. Please explain list comprehensions, using simple examples and avoiding technical jargon."
++```
++
++### 2. Step-by-Step Instructions
++
++```
++"Can you guide me through debugging this Python code? Please:
++1. First, identify any syntax errors
++2. Then, explain any logical errors
++3. Finally, suggest improvements for efficiency
++
++Here's my code:
++def calculate_average(nums):
++    sum = 0
++    for i in range(len(nums)):
++        sum += nums[i]
++    return sum/len(nums)"
++```
++
++### 3. Setting Constraints
++
++```
++"Please explain how a hash table works, but:
++- Keep the explanation under 5 sentences
++- Use a real-world analogy
++- Avoid technical terms where possible"
++```
++
++## Tips for Programming Tasks
++
++### 1. Request Code Comments
++
++Instead of:
++
++```
++"Write a binary search function"
++```
++
++Write:
++
++```
++"Can you write a binary search function in Python with detailed comments explaining how each part works? Please include:
++- Parameter descriptions
++- Time complexity
++- Example usage"
++```
++
++### 2. Ask for Test Cases
++
++```
++"After showing the code, could you provide 3-4 test cases that cover different scenarios, including edge cases?"
++```
++
++### 3. Request Explanations
++
++```
++"Can you explain why you chose this approach over alternatives? What are the trade-offs?"
++```
++
++## Common Mistakes to Avoid
++
++### 1. Being Too Vague
++
++❌ "Make it better"
++✅ "Can you improve this code's efficiency by reducing its time complexity? Currently it's O(n²)."
++
++### 2. Asking Multiple Questions at Once
++
++❌ "How do variables work in Python and can you also explain functions and what about classes and inheritance?"
++✅ "Let's start with Python variables. Can you explain how they work and provide basic examples?"
++
++### 3. Not Providing Necessary Context
++
++❌ "Why isn't my code working?"
++✅ "I'm getting a 'KeyError' when running this Python dictionary code. Here's my code and the full error message: [code and error]"
++
++## Real-World Examples
++
++### Debugging Help
++
++```
++"I'm getting this error when trying to read a CSV file in Python:
++FileNotFoundError: [Errno 2] No such file or directory: 'data.csv'
++
++My code is:
++import pandas as pd
++df = pd.read_csv('data.csv')
++
++My file structure is:
++project/
++  ├── src/
++  │   └── main.py
++  └── data/
++      └── data.csv
++
++I'm running the code from the src directory. Can you help me fix this?"
++```
++
++### Learning Concepts
++
++```
++"I'm struggling to understand recursion in programming. Could you:
++1. Explain it using a simple real-world example
++2. Show a basic Python example
++3. Then show how it would solve a simple problem like calculating factorial
++4. Finally, help me understand when I should and shouldn't use recursion"
++```
++
++## Practice Exercises
++
++Try improving these basic prompts:
++
++1. Basic:
++
++```
++"How do I use lists?"
++```
++
++Better:
++
++```
++"Can you show me the basic operations for Python lists? I'd like to learn how to:
++- Create a list
++- Add items
++- Remove items
++- Access elements
++Please include simple examples for each operation."
++```
++
++2. Basic:
++
++```
++"Debug my code"
++```
++
++Better:
++
++```
++"My Python code is supposed to count the frequency of words in a text file, but it's not handling punctuation correctly. Here's my code:
++[your code]
++
++Expected output: {'hello': 2, 'world': 1}
++Actual output: {'hello,': 1, 'hello': 1, 'world!': 1}
++
++How can I modify this to properly handle punctuation?"
++```
++
++## Remember
++
++- Start simple and add details as needed
++- Be clear about your current knowledge level
++- Ask for clarification if the AI's response isn't clear
++- Break complex problems into smaller parts
++- Include relevant code, errors, or examples
++- Specify your preferred learning style
++- Ask for explanations of concepts you don't understand
++
++## Final Tips
++
++1. **Iterative Refinement**: Don't hesitate to ask follow-up questions or request clarification.
++
++2. **Save Good Prompts**: Keep a collection of prompts that worked well for future reference.
++
++3. **Learn from Responses**: Pay attention to how the AI interprets your prompts and adjust accordingly.
++
++4. **Be Specific About Output**: If you want code examples, specify the programming language and style preferences.
++
++5. **Request Verification**: Ask the AI to verify if it understood your request correctly.
++
++Happy prompting! Remember, effective prompt engineering is a skill that develops with practice. Don't be afraid to experiment and refine your approach.
+diff --git a/resources/readme.md b/resources/readme.md
+new file mode 100644
+index 0000000..d96c73b
+--- /dev/null
++++ b/resources/readme.md
+@@ -0,0 +1,10 @@
++# Final Project Resources
++
++---
++
++Here you'll find resources to help you complete your final project. This includes a guide to the project, a changelog template, and other resources that will be added as the project progresses.
++
++## Links
++
++- [Final Project Guide](./final-project-guide.md)
++- [AI Assistance](./ai-assistance.md)
+diff --git a/test.py b/test.py
+new file mode 100644
+index 0000000..a1339c2
+--- /dev/null
++++ b/test.py
+@@ -0,0 +1 @@
++# Write your business logic tests here
+\ No newline at end of file
