@@ -6,7 +6,7 @@
 
 ### Primary Features
 
-- [Store transactions (Date, category, amount, name, type, description, type)]
+- [Store transactions (date, category, amount, name, type, description, type)]
 - [Add new transactions, then view all]
 - [Analyze expenses and alert for budget limits]
 

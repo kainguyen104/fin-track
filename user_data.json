@@ -1,0 +1,25 @@
+{
+    "name": "Nguyen",
+    "age": 21,
+    "transactions": [
+        {
+            "amount": 100.0,
+            "name": "burger",
+            "category": "Food",
+            "description": "",
+            "date": "2026-01-18T15:23:09.381656",
+            "type": "expense"
+        }
+    ],
+    "balance": 100.0,
+    "budget": 0,
+    "savings": 100.0,
+    "total_expenses": 100.0,
+    "total_income": 0,
+    "budget_alert_point": 0,
+    "alert_options": [
+        "savings"
+    ],
+    "expenses_by_category": {},
+    "income_by_category": {}
+}
