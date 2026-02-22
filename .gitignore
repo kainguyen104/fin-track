@@ -70,3 +70,4 @@ pip-delete-this-directory.txt
 # Backup files
 *.bak
 *~
+node_modules

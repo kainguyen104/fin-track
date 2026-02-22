@@ -1,107 +1,7 @@
-
 from transaction import Transaction
 from datetime import datetime
 import json
 import os
-from flask import Flask, jsonify, request
-
-# Flask app setup
-app = Flask(__name__)
-
-
-# --- FinTrack instance (in-memory for now) ---
-
-
-# Home route
-@app.route('/')
-def home():
-    return jsonify({"message": "FinTrack backend is running!"})
-
-# Get all transactions
-@app.route('/api/transactions', methods=['GET'])
-def get_transactions():
-    txs = [
-        {
-            "amount": t.amount,
-            "name": t.name,
-            "category": t.category,
-            "description": t.description,
-            "type": t.type,
-            "date": t.date.isoformat() if hasattr(t, 'date') else None
-        }
-        for t in fintrack.transactions
-    ]
-    return jsonify(txs)
-
-# Add a transaction
-@app.route('/api/add-transaction', methods=['POST'])
-def add_transaction():
-    data = request.json
-    try:
-        fintrack.add_transaction(
-            float(data['amount']),
-            data['name'],
-            data['category'],
-            data.get('description', ''),
-            data['type']
-        )
-        return jsonify({"status": "success"})
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 400
-
-# Set budget
-@app.route('/api/set-budget', methods=['POST'])
-def set_budget():
-    data = request.json
-    try:
-        fintrack.set_budget(float(data['budget']))
-        return jsonify({"status": "success", "budget": fintrack.budget})
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 400
-
-# Set savings
-@app.route('/api/set-savings', methods=['POST'])
-def set_savings():
-    data = request.json
-    try:
-        fintrack.set_savings(float(data['savings']))
-        return jsonify({"status": "success", "savings": fintrack.savings})
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 400
-
-
-# Set initial balance
-@app.route('/api/set-balance', methods=['POST'])
-def set_balance():
-    data = request.json
-    try:
-        amount = float(data['balance'])
-        if amount < 0:
-            raise ValueError("Balance cannot be negative.")
-        fintrack.balance = amount
-        return jsonify({"status": "success", "balance": fintrack.balance})
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 400
-
-# Get account summary
-@app.route('/api/account-summary', methods=['GET'])
-def account_summary():
-    return jsonify({
-        "balance": fintrack.balance,
-        "budget": fintrack.budget,
-        "savings": fintrack.savings
-    })
-
-# Get analysis
-@app.route('/api/analysis', methods=['GET'])
-def analysis():
-    # Recalculate analysis
-    fintrack.view_expenses_analysis()
-    fintrack.view_income_analysis()
-    return jsonify({
-        "expenses": fintrack.expenses_by_category,
-        "income": fintrack.income_by_category
-    })
 
 
 class FinTrack:
@@ -343,14 +243,14 @@ class FinTrack:
             'income_by_category': self.income_by_category,
         }  
 
-        with open("final-project-kainguyen104/user_data.json", 'w') as f:
+        with open("user_data.json", 'w') as f:
             json.dump(data, f, indent=4)
     
     def load_current_user(self):
         """Load entries from a JSON file"""
 
         try:
-            with open("final-project-kainguyen104/user_data.json", 'r') as f:
+            with open("user_data.json", 'r') as f:
                 d = json.load(f)
         
             self.transactions = [Transaction(t["amount"], t["name"], t["category"], t["description"], t["type"], datetime.fromisoformat(t["date"])) for t in d["transactions"]]
@@ -368,8 +268,3 @@ class FinTrack:
 
         except FileNotFoundError:
             print(f"File not found.")
-
-fintrack = FinTrack()
-# Run Flask app if this file is executed directly
-if __name__ == "__main__":
-    app.run(debug=True)

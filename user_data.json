@@ -11,7 +11,7 @@
             "type": "expense"
         }
     ],
-    "balance": 100.0,
+    "balance": 200.0,
     "budget": 0,
     "savings": 100.0,
     "total_expenses": 100.0,
